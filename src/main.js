@@ -23,7 +23,13 @@ elSearchForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   query = elSearchForm.elements.enterForSearsh.value.trim();
-  if (!query) return;
+  if (!query) {
+    iziToast.warning({
+      position: 'topRight',
+      message: 'Please enter a search term.',
+    });
+    return;
+  }
 
   page = 1;
   clearGallery();
@@ -35,6 +41,7 @@ elSearchForm.addEventListener('submit', async event => {
     totalHits = data.totalHits;
 
     if (!totalHits) {
+      hideLoader();
       iziToast.error({
         position: 'topRight',
         message:
@@ -58,6 +65,10 @@ elSearchForm.addEventListener('submit', async event => {
   } catch (error) {
     console.error(error);
     hideLoader();
+    iziToast.error({
+      position: 'topRight',
+      message: 'An error occurred while fetching data. Please try again later.',
+    });
   }
 });
 
@@ -89,5 +100,10 @@ elBtnSearchMore.addEventListener('click', async () => {
     });
   } catch (error) {
     console.error(error);
+    elLoaderMore.classList.remove('is-active-more');
+    iziToast.error({
+      position: 'topRight',
+      message: 'Failed to load more images. Please try again.',
+    });
   }
 });
