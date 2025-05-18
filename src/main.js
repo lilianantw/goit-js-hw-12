@@ -1,36 +1,40 @@
-import { returnPromise } from './js/pixabay-api';
-import { returnMarkup } from './js/render-functions';
+import { getImagesByQuery } from './js/pixabay-api';
+import {
+  createGallery,
+  clearGallery,
+  showLoader,
+  hideLoader,
+  showLoadMoreButton,
+  hideLoadMoreButton,
+} from './js/render-functions';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const elSearchForm = document.querySelector('.js-search-form');
 const elSearchList = document.querySelector('.js-search-list');
-const elLoader = document.querySelector('.js-loader');
 const elLoaderMore = document.querySelector('.js-loader-more');
 const elBtnSearchMore = document.querySelector('.js-search-more');
 
 let page = 1;
-let totalPage = 1;
 let query = '';
+let totalHits = 0;
 
 elSearchForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   query = elSearchForm.elements.enterForSearsh.value.trim();
   if (!query) return;
-  if (elBtnSearchMore.classList.contains('is-active')) {
-    elBtnSearchMore.classList.remove('is-active');
-  }
-  elSearchList.innerHTML = '';
-  elLoader.classList.add('is-active');
+
   page = 1;
+  clearGallery();
+  hideLoadMoreButton();
+  showLoader();
 
   try {
-    const { data } = await returnPromise(query, page);
-    if (!data.total) {
-      elLoader.classList.remove('is-active');
+    const data = await getImagesByQuery(query, page);
+    totalHits = data.totalHits;
+
+    if (!totalHits) {
       iziToast.error({
         position: 'topRight',
         message:
@@ -40,54 +44,50 @@ elSearchForm.addEventListener('submit', async event => {
       return;
     }
 
-    elSearchList.innerHTML = `${returnMarkup(data.hits)}`;
-    elLoader.classList.remove('is-active');
-    elBtnSearchMore.classList.add('is-active');
+    createGallery(data.hits);
+    hideLoader();
 
-    if (data.totalHits < 15) {
-      elBtnSearchMore.classList.remove('is-active');
+    if (totalHits > 15) {
+      showLoadMoreButton();
+    } else {
       iziToast.info({
         position: 'topRight',
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
-    lightbox.refresh();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    hideLoader();
   }
 });
 
 elBtnSearchMore.addEventListener('click', async () => {
+  page += 1;
   elLoaderMore.classList.add('is-active-more');
-  elBtnSearchMore.classList.remove('is-active');
+  hideLoadMoreButton();
 
   try {
-    const { data } = await returnPromise(query, ++page);
-    elSearchList.insertAdjacentHTML('beforeend', `${returnMarkup(data.hits)}`);
+    const data = await getImagesByQuery(query, page);
+    createGallery(data.hits);
 
     elLoaderMore.classList.remove('is-active-more');
-    elBtnSearchMore.classList.add('is-active');
-    lightbox.refresh();
-
-    window.scrollBy({
-      top: elSearchList.firstChild.getBoundingClientRect().height * 2,
-      behavior: 'smooth',
-    });
-
-    totalPage = Math.ceil(data.totalHits / 15);
-    if (totalPage === page) {
-      elBtnSearchMore.classList.remove('is-active');
+    const totalPages = Math.ceil(totalHits / 15);
+    if (page < totalPages) {
+      showLoadMoreButton();
+    } else {
       iziToast.info({
         position: 'topRight',
         message: "We're sorry, but you've reached the end of search results.",
       });
     }
-  } catch (error) {
-    console.log(error);
-  }
-});
 
-const lightbox = new SimpleLightbox('.gallery-link', {
-  captionsData: 'alt',
-  captionDelay: 250,
+    const cardHeight =
+      elSearchList.firstElementChild.getBoundingClientRect().height;
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+  } catch (error) {
+    console.error(error);
+  }
 });
