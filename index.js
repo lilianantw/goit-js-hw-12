@@ -1,24 +1,12 @@
-import{a as b,i as m,S as $}from"./assets/vendor-DFCQGEf1.js";(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))a(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const o of t.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&a(o)}).observe(document,{childList:!0,subtree:!0});function u(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?t.credentials="include":e.crossOrigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function a(e){if(e.ep)return;e.ep=!0;const t=u(e);fetch(e.href,t)}})();const y=(s,r)=>b.get("https://pixabay.com/api/",{params:{key:"43795533-00e69c3734dde476e8d836fd2",q:s,orientation:"horizontal",safesearch:!0,page:r,per_page:"15"}}),g=s=>s.map(({webformatURL:u,largeImageURL:a,tags:e,likes:t,views:o,comments:L,downloads:S})=>`<li class="search-list-item">
-                    <a class="gallery-link" href="${a}">
-                      <img class="search-list-img" src="${u}" alt="${e}" />
+import{a as w,S as j,i as u}from"./assets/vendor-CrlV4O_2.js";(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))c(e);new MutationObserver(e=>{for(const r of e)if(r.type==="childList")for(const i of r.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&c(i)}).observe(document,{childList:!0,subtree:!0});function o(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?r.credentials="include":e.crossOrigin==="anonymous"?r.credentials="omit":r.credentials="same-origin",r}function c(e){if(e.ep)return;e.ep=!0;const r=o(e);fetch(e.href,r)}})();const M="43795533-00e69c3734dde476e8d836fd2",$="https://pixabay.com/api/",p=async(s,t)=>(await w.get($,{params:{key:M,q:s,orientation:"horizontal",safesearch:!0,page:t,per_page:15}})).data,f=document.querySelector(".js-search-list"),y=document.querySelector(".js-loader"),g=document.querySelector(".js-search-more"),B=new j(".gallery-link",{captionsData:"alt",captionDelay:250}),L=s=>{const t=s.map(({webformatURL:o,largeImageURL:c,tags:e,likes:r,views:i,comments:b,downloads:q})=>`<li class="search-list-item">
+                    <a class="gallery-link" href="${c}">
+                      <img class="search-list-img" src="${o}" alt="${e}" />
                     </a>
                     <ul>
-                      <li>
-                        <h3>Likes</h3>
-                        <p>${t}</p>
-                      </li>
-                      <li>
-                        <h3>Views</h3>
-                        <p>${o}</p>
-                      </li>
-                      <li>
-                        <h3>Comments</h3>
-                        <p>${L}</p>
-                      </li>
-                      <li>
-                        <h3>Downloads</h3>
-                        <p>${S}</p>
-                      </li>
+                      <li><h3>Likes</h3><p>${r}</p></li>
+                      <li><h3>Views</h3><p>${i}</p></li>
+                      <li><h3>Comments</h3><p>${b}</p></li>
+                      <li><h3>Downloads</h3><p>${q}</p></li>
                     </ul>
-                  </li>`).join(""),d=document.querySelector(".js-search-form"),l=document.querySelector(".js-search-list"),h=document.querySelector(".js-loader"),p=document.querySelector(".js-loader-more"),i=document.querySelector(".js-search-more");let n=1,f=1,c="";d.addEventListener("submit",async s=>{if(s.preventDefault(),c=d.elements.enterForSearsh.value.trim(),!!c){i.classList.contains("is-active")&&i.classList.remove("is-active"),l.innerHTML="",h.classList.add("is-active"),n=1;try{const{data:r}=await y(c,n);if(!r.total){h.classList.remove("is-active"),m.error({position:"topRight",message:"Sorry, there are no images matching your search query. Please try again!"}),d.reset();return}l.innerHTML=`${g(r.hits)}`,h.classList.remove("is-active"),i.classList.add("is-active"),r.totalHits<15&&(i.classList.remove("is-active"),m.info({position:"topRight",message:"We're sorry, but you've reached the end of search results."})),v.refresh()}catch(r){console.log(r)}}});i.addEventListener("click",async()=>{p.classList.add("is-active-more"),i.classList.remove("is-active");try{const{data:s}=await y(c,++n);l.insertAdjacentHTML("beforeend",`${g(s.hits)}`),p.classList.remove("is-active-more"),i.classList.add("is-active"),v.refresh(),window.scrollBy({top:l.firstChild.getBoundingClientRect().height*2,behavior:"smooth"}),f=Math.ceil(s.totalHits/15),f===n&&(i.classList.remove("is-active"),m.info({position:"topRight",message:"We're sorry, but you've reached the end of search results."}))}catch(s){console.log(s)}});const v=new $(".gallery-link",{captionsData:"alt",captionDelay:250});
+                  </li>`).join("");f.insertAdjacentHTML("beforeend",t),B.refresh()},P=()=>{f.innerHTML=""},E=()=>{y.classList.add("is-active")},h=()=>{y.classList.remove("is-active")},v=()=>{g.classList.add("is-active")},S=()=>{g.classList.remove("is-active")},d=document.querySelector(".js-search-form"),O=document.querySelector(".js-search-list"),m=document.querySelector(".js-loader-more"),H=document.querySelector(".js-search-more");let a=1,n="",l=0;d.addEventListener("submit",async s=>{if(s.preventDefault(),n=d.elements.enterForSearsh.value.trim(),!!n){a=1,P(),S(),E();try{const t=await p(n,a);if(l=t.totalHits,!l){u.error({position:"topRight",message:"Sorry, there are no images matching your search query. Please try again!"}),d.reset();return}L(t.hits),h(),l>15?v():u.info({position:"topRight",message:"We're sorry, but you've reached the end of search results."})}catch(t){console.error(t),h()}}});H.addEventListener("click",async()=>{a+=1,m.classList.add("is-active-more"),S();try{const s=await p(n,a);L(s.hits),m.classList.remove("is-active-more");const t=Math.ceil(l/15);a<t?v():u.info({position:"topRight",message:"We're sorry, but you've reached the end of search results."});const o=O.firstElementChild.getBoundingClientRect().height;window.scrollBy({top:o*2,behavior:"smooth"})}catch(s){console.error(s)}});
 //# sourceMappingURL=index.js.map

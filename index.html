@@ -2,22 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Images</title>
+    <title>Image Search</title>
+
+    <!-- Іконка -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Normalize CSS -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
     />
+
+    <!-- стилі -->
     <script type="module" crossorigin src="/goit-js-hw-12/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-DFCQGEf1.js">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-DumFYO8Z.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-CrlV4O_2.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-CWKLx11g.css">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-CFiQlqak.css">
   </head>
   <body>
     <section class="search">
       <div class="container">
-        <form class="search-form js-search-form">
+        <form class="form search-form js-search-form">
           <input
             name="enterForSearsh"
             type="text"
@@ -26,8 +32,13 @@
           />
           <button type="submit">Search</button>
         </form>
+
+        <!-- Лоадер пошуку -->
         <span class="loader js-loader"></span>
-        <ul class="search-list js-search-list"></ul>
+
+        <ul class="gallery search-list js-search-list"></ul>
+
+        <!-- Кнопка Load More -->
         <div class="wrap-more">
           <span class="loader js-loader-more"></span>
           <button class="search-more js-search-more" type="button">
@@ -36,5 +47,7 @@
         </div>
       </div>
     </section>
+
+    <!-- Головний скрипт -->
   </body>
 </html>
